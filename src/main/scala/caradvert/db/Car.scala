@@ -13,7 +13,7 @@ case class Car ( @(DynamoDBHashKey @beanGetter)
   @BeanProperty var price: Integer,
   @BeanProperty var newCar: Boolean,
   @BeanProperty var mileage: Integer,
-  @BeanProperty var registrationDate: String //should be of type Date, but I do not have enough time for solving the time zone issue 
+  @BeanProperty var firstRegistration: String //should be of type Date, but I do not have enough time for solving the time zone issue 
   ) {
   def this() = this(null,null,null,null,true,null,null) //needed for the beans
  
@@ -26,7 +26,7 @@ case class Car ( @(DynamoDBHashKey @beanGetter)
     this.price = price
     this.newCar = newCar
     this.mileage = mileage
-    this.registrationDate = registrationDate
+    this.firstRegistration = registrationDate
     
   }
 }

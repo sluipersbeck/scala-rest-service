@@ -1,11 +1,11 @@
 package caradvert;
 
-import caradvert.db._
+import caradvert.db.DynamoCarDao
 import java.text.SimpleDateFormat
 
 
 object demo extends App {
-  println("### DYNAMOD DB DEMO");
-  DynamoCarDao.destroy()
-  DynamoCarDao.setup()    
+  val dao = new DynamoCarDao();
+//  dao.destroy()
+  dao.setup()    
 }
