@@ -11,7 +11,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression
  */
 class DynamoSpec extends FlatSpec with Matchers with BeforeAndAfter {
   
-  val testcar = Car(id = 321, title = "BMW", fuel = "gasoline", price = 300, newCar = false, mileage = 9232, registrationDate = "2013-09-30")
+  val testcar = Car(id = 321, title = "BMW", fuel = "gasoline", price = 300, newCar = false, mileage = 9232, firstRegistration = "2013-09-30")
   
   val dynamoCarDao = new DynamoCarDao()
   
