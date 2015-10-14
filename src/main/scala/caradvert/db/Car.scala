@@ -5,15 +5,15 @@ import beans.BeanProperty
 import com.amazonaws.services.dynamodbv2.datamodeling._
 
 
-@DynamoDBTable(tableName="CarAdverts") //should have some validation
+@DynamoDBTable(tableName="CarAdverts")
 case class Car ( @(DynamoDBHashKey @beanGetter) 
   @BeanProperty var id:Integer,    // must be var otherwise the mapper cannot instantiate them
   @BeanProperty var title: String,
-  @BeanProperty var fuel: String,
+  @BeanProperty var fuel: String, //should be an enum
   @BeanProperty var price: Integer,
   @BeanProperty var newCar: Boolean,
   @BeanProperty var mileage: Integer,
-  @BeanProperty var firstRegistration: String //should be of type Date, but I do not have enough time for solving the time zone issue 
+  @BeanProperty var firstRegistration: String //should be of type Date
   ) {
   def this() = this(null,null,null,null,true,null,null) //needed for the beans
  

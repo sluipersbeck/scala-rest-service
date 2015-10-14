@@ -6,7 +6,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression
 
 /**
- * this test case was used to test behaviour of database during development
+ * this test case was used to test behavior of the database during development
  * the caradvert table should be mocked  (see http://scalamock.org/user-guide/sharing-scalatest/ or ddbmock)
  */
 class DynamoSpec extends FlatSpec with Matchers with BeforeAndAfter {
@@ -15,11 +15,17 @@ class DynamoSpec extends FlatSpec with Matchers with BeforeAndAfter {
   
   val dynamoCarDao = new DynamoCarDao()
   
+  before {
+    dynamoCarDao.destroy()
+    dynamoCarDao.setup();
+  }
+  
   after {
     new DynamoDBMapper(DynamoDB.local()).delete(testcar);
   }
   
   "CarAdvert table" should "be created" in {
+    dynamoCarDao.destroy()
     dynamoCarDao.setup();
     DynamoDB.local().listTables().getTableNames.contains(dynamoCarDao.carAdvertTableName) should be (true)
   }
@@ -47,7 +53,7 @@ class DynamoSpec extends FlatSpec with Matchers with BeforeAndAfter {
     val carToBeDeleted = new DynamoDBMapper(DynamoDB.local()).load(classOf[Car], testcar.id)
     assert (carToBeDeleted === testcar)
     carToBeDeleted should be equals (testcar)
-    dynamoCarDao.delete(testcar.id)
+    dynamoCarDao.delete(carToBeDeleted)
     val allCars = dynamoCarDao.findAll()
     while(allCars.hasNext()) println(allCars.next())
     new DynamoDBMapper(DynamoDB.local()).scan(classOf[Car], new DynamoDBScanExpression()).isEmpty() should  be (true)
