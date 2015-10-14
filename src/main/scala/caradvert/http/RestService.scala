@@ -36,14 +36,13 @@ trait RestRoute extends HttpService  {
   implicit val apiVersion = "v1"
   implicit val apiEntity = "caradvert"
    
-  //implicit values are need for akka
+  //implicit values are needed for akka
   implicit def executionContext = actorRefFactory.dispatcher
   implicit val timeout = Timeout(5.seconds)
    
    val worker = actorRefFactory.actorOf(Props[CarAdvertWorkerActor], "caradvert-rest")
    
-
-   
+   //could have been written "nicer"
    val route = {
      pathPrefix("api" / apiVersion / apiEntity) {
        post {
@@ -80,16 +79,12 @@ trait RestRoute extends HttpService  {
     complete {
     (worker ? Create(car))
       .mapTo[Status]
-   //   .map(result => result)
-     // .recover { case _ => "error" }
     }    
   }
   def doModify[T](car: CarDO) = {
     complete {
     (worker ? Modify(car))
       .mapTo[Status]
-      //.map(result => result)
-      //.recover { case _ => "error" }
     }
   }
   
@@ -97,7 +92,7 @@ trait RestRoute extends HttpService  {
     complete {
       (worker ? GetAllCars())
       .mapTo[GetAllCarsResponse]
-     // .recover { case _ => "error" }
+      .recover { case _ => "error" }
     }
   }
   
@@ -105,7 +100,7 @@ trait RestRoute extends HttpService  {
     complete {
       (worker ? GetCar(id))
       .mapTo[GetCarResponse]
-      //.recover { case _ => "error" }
+      .recover { case _ => "error" }
     }
   }
   

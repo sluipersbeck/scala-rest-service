@@ -1,6 +1,6 @@
 package caradvert.service
 
-import akka.actor.Actor
+//import akka.actor.Actor
 import caradvert.db._
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -13,7 +13,6 @@ case class CarAlreadyFoundException() extends Exception
 /**
  * should have been an asynchronous service 
  */
-
 object CarService {
   case class FindCar(id: Int)
   case class FindAllCars()

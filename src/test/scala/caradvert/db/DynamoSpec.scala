@@ -6,7 +6,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression
 
 /**
- * this test case was used to test behaviour of database during development
+ * this test case was used to test behavior of the database during development
  * the caradvert table should be mocked  (see http://scalamock.org/user-guide/sharing-scalatest/ or ddbmock)
  */
 class DynamoSpec extends FlatSpec with Matchers with BeforeAndAfter {

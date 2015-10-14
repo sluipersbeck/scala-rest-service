@@ -7,20 +7,21 @@ import com.amazonaws.services.dynamodbv2.datamodeling.{DynamoDBMapper,DynamoDBMa
 trait DynamoCar {
   var carAdvertTableName: String = "CarAdverts"
   
-  implicit val dynamoDB = DynamoDB.local() //TODO fixxme should be set somewhere else (could be based on property)
+  implicit val dynamoDB = DynamoDB.local() //should be set somewhere else (could be based on property)
   implicit val mapper = new DynamoDBMapper(dynamoDB)
   
   def setup() 
   def findAll(): java.util.Iterator[Car]
+  def put(car: Car)
+  def delete(car: Car)
+  def load (id: Int): Car 
 }
 
 /**
  * simple dynamoDB Car entity DAO
- * does not do any error handling (that is the task of the "business layer")
+ * does not do any error handling (the task is done by the "business layer")
  */
-
 class DynamoCarDao extends DynamoCar{
-  //var carAdvertTableName: String = "CarAdverts"
   
   def setup() = {
     val tableExists: Boolean = dynamoDB.listTables().getTableNames.contains(carAdvertTableName)
@@ -40,11 +41,11 @@ class DynamoCarDao extends DynamoCar{
     }
   }
   
-  def put(car: Car): Unit = {
+  def put(car: Car) = {
     mapper.save(car);
   }
   
-  def delete(car: Car): Unit = {
+  def delete(car: Car) = {
     mapper.delete(car) 
   }
   

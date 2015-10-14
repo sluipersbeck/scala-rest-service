@@ -9,7 +9,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling._
 case class Car ( @(DynamoDBHashKey @beanGetter) 
   @BeanProperty var id:Integer,    // must be var otherwise the mapper cannot instantiate them
   @BeanProperty var title: String,
-  @BeanProperty var fuel: String,
+  @BeanProperty var fuel: String, //should be an enum!
   @BeanProperty var price: Integer,
   @BeanProperty var newCar: Boolean,
   @BeanProperty var mileage: Integer,
