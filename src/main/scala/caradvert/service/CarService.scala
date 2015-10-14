@@ -55,7 +55,7 @@ class CarService (dao:DynamoCarDao) /*extends Actor*/ {
     if (dao.load(car.id) == null) {
       throw CarNotFoundException()
     }  
-    if (!car.newCar && car.mileage==null && car.firstRegistration==null)
+    if (!car.newCar && (car.mileage.isEmpty || car.firstRegistration.isEmpty))
       throw CarDataValidationException()
     dao.put(mapToDB(car));
   }
@@ -64,7 +64,6 @@ class CarService (dao:DynamoCarDao) /*extends Actor*/ {
     if (dao.load(car.id) != null) {
       throw CarAlreadyFoundException()
     }  
-
     if (!car.newCar && (car.mileage.isEmpty || car.firstRegistration.isEmpty))
       throw CarDataValidationException()
     dao.put(mapToDB(car))
