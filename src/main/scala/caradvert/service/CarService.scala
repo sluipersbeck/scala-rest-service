@@ -18,7 +18,7 @@ object CarService {
   case class FindAllCars()
   case class UpdateCar(car:CarDO)
   case class InsertCar(car:CarDO)
-//  case class Ok(status: Int) //TODO handle errors and correct behavior (maybe not the best approach)
+//  case class Ok(status: Int) 
 }
 
 class CarService (dao:DynamoCarDao) /*extends Actor*/ {
