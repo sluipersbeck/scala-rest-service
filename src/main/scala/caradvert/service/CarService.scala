@@ -96,6 +96,9 @@ class CarService (dao:DynamoCarDao) /*extends Actor*/ {
     if (!doCar.firstRegistration.isEmpty) {
        registration = df.format(doCar.firstRegistration.get)
     }
+    if (!doCar.mileage.isEmpty) {
+       mileage = doCar.mileage.get
+    }
     Car(doCar.id, doCar.title, doCar.fuel, doCar.price, doCar.newCar, mileage, registration)
   }
 }
