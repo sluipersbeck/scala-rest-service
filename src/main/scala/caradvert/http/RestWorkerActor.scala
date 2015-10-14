@@ -9,9 +9,13 @@ import caradvert.service.CarDO
 
 object CarAdvertWorkerActor {
   case class Ok(status: Int)
-  case class CreateJSONResponse(carAdverts: List[CarDO])
+  case class FindCarResponse(car: CarDO)
+  case class FindAllCarsResponse(car: List[CarDO])
   case class Create(car: CarDO)
   case class Modify(car: CarDO)
+  case class DeleteCar(id: Int)
+  case class GetAllCars()
+  case class GetCar(id: Int)
 }
 
 class CarAdvertWorkerActor extends Actor with ActorLogging {
@@ -19,14 +23,33 @@ class CarAdvertWorkerActor extends Actor with ActorLogging {
   import caradvert.service.CarService
   import caradvert.service.CarService._
 
-  val carService = context.actorOf(Props[CarService])
+  val carService = new CarService() //context.actorOf(Props[CarService])
   def receive = {
     case Create(car) => {
-      carService ! InsertCar(car)
+      carService.insertCar(car)
+      sender ! Ok(200)
+    //  carService ! InsertCar(car)
     }
     case Modify(car) => {
-      carService ! UpdateCar(car)
+      carService.updateCar(car)
+      sender ! Ok(200)
+//      carService ! UpdateCar(car)
     }
-    
+    case GetAllCars() => {
+      val cars = carService.findAllCars()
+      println ("all Cars size " +cars.size); 
+      for (car <- cars) println ("in worker " +car)
+      sender ! FindAllCarsResponse(cars)
+     // carService ! FindAllCars()
+    }
+    case GetCar(id:Int) => {
+     val car = carService.findCarById(id)
+     sender ! FindCarResponse(car)
+     // carService ! FindCar(id)
+    }
+    case DeleteCar(id:Int) => {
+      carService.deleteCar(id:Int)
+      sender ! Ok(200)
+    }
   }
 }

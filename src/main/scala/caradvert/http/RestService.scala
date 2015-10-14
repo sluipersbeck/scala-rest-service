@@ -40,7 +40,7 @@ trait RestRoute extends HttpService  {
   implicit def executionContext = actorRefFactory.dispatcher
   implicit val timeout = Timeout(5.seconds)
    
-   val worker = actorRefFactory.actorOf(Props[CarAdvertWorkerActor], "caradvert-worker")
+   val worker = actorRefFactory.actorOf(Props[CarAdvertWorkerActor], "caradvert-rest")
    
    val route = {
      pathPrefix("api" / apiVersion / apiEntity) {
@@ -48,32 +48,70 @@ trait RestRoute extends HttpService  {
          path("add") {
            entity(as[CarDO]) { car =>  
              doCreate(car)
-          }
-        } ~ 
-        path("modify") {
-          entity(as[CarDO]) { car =>  
+           }
+         } ~ 
+         path("modify") {
+           entity(as[CarDO]) { car =>  
              doModify(car)
+           }
+         }
+       } ~
+       get {
+          path("getAll") {
+            doGetAll()
+          } ~ 
+          path("get" / IntNumber) {
+            id => get {
+              doGet(id)
+            }
+          } ~ 
+          path("delete" / IntNumber) {
+            id => get {
+              doDelete(id)
+            }
           }
-        }
-      }
+       }
     }
   }
    
   def doCreate[T](car: CarDO) = {
     complete {
     (worker ? Create(car))
-      .mapTo[CreateJSONResponse]
-      //.map(result => result)
-      .recover { case _ => "error" }
+      .mapTo[Ok]
+   //   .map(result => result)
+     // .recover { case _ => "error" }
     }    
   }
   def doModify[T](car: CarDO) = {
     complete {
     (worker ? Modify(car))
-      .mapTo[CreateJSONResponse]
+      .mapTo[Ok]
       //.map(result => result)
-      .recover { case _ => "error" }
+      //.recover { case _ => "error" }
     }
   }
+  
+  def doGetAll[T]() = {
+    complete {
+      (worker ? GetAllCars())
+      .mapTo[FindAllCarsResponse]
+     // .recover { case _ => "error" }
+    }
+  }
+  
+  def doGet[T](id: Int) = {
+    complete {
+      (worker ? GetCar(id))
+      .mapTo[FindCarResponse]
+      //.recover { case _ => "error" }
+    }
+  }
+  
+  def doDelete[T](id: Int) = {
+    complete {
+      (worker ? DeleteCar(id)) 
+      .mapTo[Ok]
+    }   
+    }
 }
 

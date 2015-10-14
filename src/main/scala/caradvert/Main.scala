@@ -18,7 +18,7 @@ object main extends App {
   val service = system.actorOf(Props[RestServiceActor], "caradvert-service")
   //val carService = system.actorOf(Props[CarService], "caradvert-service")
 
-    //If we're on cloud foundry, get's the host/port from the env vars
+    //get the host/port from the env vars if possible
   lazy val host = Option(System.getenv("CARADVERT_APP_HOST")).getOrElse("localhost")
   lazy val port = Option(System.getenv("CARADVERT_APP_PORT")).getOrElse("8080").toInt
 
