@@ -79,7 +79,7 @@ trait RestRoute extends HttpService  {
   def doCreate[T](car: CarDO) = {
     complete {
     (worker ? Create(car))
-      .mapTo[Ok]
+      .mapTo[Status]
    //   .map(result => result)
      // .recover { case _ => "error" }
     }    
@@ -87,7 +87,7 @@ trait RestRoute extends HttpService  {
   def doModify[T](car: CarDO) = {
     complete {
     (worker ? Modify(car))
-      .mapTo[Ok]
+      .mapTo[Status]
       //.map(result => result)
       //.recover { case _ => "error" }
     }
@@ -112,7 +112,7 @@ trait RestRoute extends HttpService  {
   def doDelete[T](id: Int) = {
     complete {
       (worker ? DeleteCar(id)) 
-      .mapTo[Ok]
+      .mapTo[Status]
     }   
    }
 }

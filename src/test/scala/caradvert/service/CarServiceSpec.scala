@@ -1,8 +1,6 @@
 package caradvert.service
 
 import caradvert.db._
-import org.specs2.mutable.SpecificationLike
-//import org.specs2.mock.Mockito
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import caradvert.http.CarAdvertWorkerActor._
