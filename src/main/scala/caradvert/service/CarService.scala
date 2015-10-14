@@ -22,10 +22,10 @@ object CarService {
 //  case class Ok(status: Int) //TODO handle errors and correct behavior (maybe not the best approach)
 }
 
-class CarService /*extends Actor*/ {
+class CarService (dao:DynamoCarDao) /*extends Actor*/ {
 //  import CarService._
   
-  val dao = new DynamoCarDao();
+
 //  def receive: Receive = {
 //    case FindCar (id) => sender ! findCarById(id) 
 //    case InsertCar(car) => sender ! insertCar(car)

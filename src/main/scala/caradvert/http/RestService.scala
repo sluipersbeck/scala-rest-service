@@ -42,11 +42,13 @@ trait RestRoute extends HttpService  {
    
    val worker = actorRefFactory.actorOf(Props[CarAdvertWorkerActor], "caradvert-rest")
    
+
+   
    val route = {
      pathPrefix("api" / apiVersion / apiEntity) {
        post {
          path("add") {
-           entity(as[CarDO]) { car =>  
+           entity(as[CarDO]) { ; car =>  
              doCreate(car)
            }
          } ~ 
@@ -94,7 +96,7 @@ trait RestRoute extends HttpService  {
   def doGetAll[T]() = {
     complete {
       (worker ? GetAllCars())
-      .mapTo[FindAllCarsResponse]
+      .mapTo[GetAllCarsResponse]
      // .recover { case _ => "error" }
     }
   }
@@ -102,7 +104,7 @@ trait RestRoute extends HttpService  {
   def doGet[T](id: Int) = {
     complete {
       (worker ? GetCar(id))
-      .mapTo[FindCarResponse]
+      .mapTo[GetCarResponse]
       //.recover { case _ => "error" }
     }
   }
@@ -112,6 +114,6 @@ trait RestRoute extends HttpService  {
       (worker ? DeleteCar(id)) 
       .mapTo[Ok]
     }   
-    }
+   }
 }
 
