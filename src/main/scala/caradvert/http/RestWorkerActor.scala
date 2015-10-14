@@ -52,8 +52,6 @@ class CarAdvertWorkerActor extends Actor with ActorLogging {
     }
     case GetAllCars() => {
       val cars = carService.findAllCars()
-      println ("all Cars size " +cars.size); 
-      for (car <- cars) println ("in worker " +car)
       sender ! GetAllCarsResponse(cars)
      // carService ! FindAllCars()
     }
